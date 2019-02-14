@@ -2,6 +2,8 @@ package collection.list;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -15,34 +17,49 @@ import org.junit.Test;
 
 public class ListEfficiency {
 /*
- 		   ArrayList    		   LinkedList
-  10W    82-153-51-86-52		36-42-35-37-35
-  50W    145-131-140-164-130    80-86-83-111-78
-  100W
-  500W
- 
+ *    顺序新增时消耗时间，单位微秒
+ 		   ArrayList    		 LinkedList
+  10W    12-7-5-18-8		    13-6-5-9-5
+  50W    19-17-18-19-18         66-77-66-105-64
+  100W   62-60-64-62-70         109-102-107-105-107
+  500W   1375-1410-1345-1396    3136-3120-3142-3231
  */
 	
+/*
+ *    随机插入消耗时间，单位微秒
+ 		   ArrayList    		 LinkedList
+  10W    12-7-5-18-8		    13-6-5-9-5
+  50W    19-17-18-19-18         66-77-66-105-64
+  100W   62-60-64-62-70         109-102-107-105-107
+  500W   1375-1410-1345-1396    3136-3120-3142-3231
+ */	
 	
-	int dataSize = 500000;
-	
-	@Test
-	public void addAndDelete() {
-		//ArrayList增加数据
-		ArrayList<String> array = new ArrayList<>();
+	int dataSize = 5000000;
+	//顺序插入尾部
+	public void time(List<Object> list) {
 		long arrayS = System.currentTimeMillis();
 		for(int i=0; i<dataSize;i++) {
-			array.add(i+"");
+			list.add(i);
 		}
 		long arrayE = System.currentTimeMillis();
 		System.out.println(arrayE - arrayS);
-		//LinkedList增加数据
-		LinkedList<String> link = new LinkedList<>();
-		long linkS = System.currentTimeMillis();
-		for(int i=0; i<dataSize;i++) {
-			link.add(i+"");
+	}
+	
+	//随机插入
+	public void randomInsert(List<Object> list) {
+		long arrayS = System.currentTimeMillis();
+		Random random = new Random();
+		for(int i=1; i <= dataSize;i++) {
+			int r = random.nextInt(i);
+			list.add(r, i);
 		}
-		long linkE = System.currentTimeMillis();
-		System.out.println(linkE - linkS);
+		long arrayE = System.currentTimeMillis();
+		System.out.println(arrayE - arrayS);
+	}
+	
+	@Test
+	public void addAndDelete() {
+		randomInsert(new ArrayList<>(10));
+		randomInsert(new LinkedList<>());
 	}
 }
