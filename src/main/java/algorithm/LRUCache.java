@@ -1,11 +1,11 @@
 package algorithm;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 /**
  * LRU模拟算法
+ * Least recently used，最近最少使用
  * @author wsz
  * @date 2019年2月21日
  */
@@ -20,9 +20,9 @@ public class LRUCache {
 	int capacity;
 	
 	/**
-	 * 模拟缓存列表
+	 * 双向链表LinkedList模拟缓存列表
 	 */
-	List<Object> keys;
+	LinkedList<Object> keys;
 	
 	/**
 	 * 缓存键值对
@@ -46,9 +46,8 @@ public class LRUCache {
 	public Object get(Object key) {
 		Object object = map.get(key);
 		if(object != null) {
-			int indexOf = keys.indexOf(key);
-			keys.remove(indexOf);
-			keys.add(0, key);
+			keys.remove(key);
+			keys.addFirst(key);
 			return object;
 		}else {
 			return -1;
@@ -58,16 +57,12 @@ public class LRUCache {
 	public Object put(Object key, Object value) {
 		Object object = map.get(key);
 		if(object != null && keys.contains(key)) {
-			int indexOf = keys.indexOf(key);
-			if(indexOf > -1) {
-				keys.remove(indexOf);
-			}
+			keys.remove(key);
 		}
 		map.put(key, value);
-		keys.add(0, key);
+		keys.addFirst(key);
 		if(size() > capacity) {
-			Object del = keys.get(keys.size()-1);
-			keys.remove(keys.size()-1);
+			Object del = keys.removeLast();;
 			map.remove(del);
 		}
 		return object;
@@ -75,7 +70,7 @@ public class LRUCache {
 	
 	public void resize() {
 		if(keys == null) {
-			keys = new ArrayList<>(capacity);
+			keys = new LinkedList<>();
 		}
 		if(map == null) {
 			map = new HashMap<>(capacity);

@@ -1,8 +1,11 @@
 package algorithm;
 
+import org.junit.Test;
+
 public class LRUTest {
-	
-	public static void main(String[] args) {
+
+	@Test
+	public void lruTest() {
 		LRUCache cache = new LRUCache(5);
 		cache.put("a", "1");
 		cache.put("b", "2");
@@ -21,5 +24,4 @@ public class LRUTest {
 		System.out.println(cache.keys);
 		System.out.println(cache.get("f"));
 	}
-
 }
