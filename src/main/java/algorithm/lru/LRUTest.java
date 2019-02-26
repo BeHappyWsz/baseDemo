@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.lru;
 
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;

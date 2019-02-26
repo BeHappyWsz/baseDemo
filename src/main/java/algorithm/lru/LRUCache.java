@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.lru;
 
 import java.util.ArrayList;
 import java.util.HashMap;
