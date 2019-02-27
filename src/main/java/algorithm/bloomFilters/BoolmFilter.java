@@ -5,6 +5,9 @@ package algorithm.bloomFilters;
  * 1.定义size长度的字节数组array，初始化所有位置为0
  * 2.put：key经过n次hash函数并求余数，对应余数array位置置1
  * 3.check：key经过n次一样的函数求余，获取n位结果，结果全部为1则数据key可能存在数据集中；存在一个为0则一定不存在数据集中
+ * 预计数据量N，错误率F，位数组长度L，hash次数K；计算网址：https://krisives.github.io/bloom-calculator/
+ * K ≈ 0.7*(L/N)  F = 0.6185^(L/N)
+ * 原理解析：http://www.cnblogs.com/allensun/archive/2011/02/16/1956532.html
  * @author wsz
  * @date 2019年2月26日
  */
