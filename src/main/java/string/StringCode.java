@@ -1,8 +1,11 @@
 package string;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
+
+import annotation.Desc;
 /**
  * 对比String、StringBuilder、StringBuffer
  * @author wsz
@@ -14,11 +17,27 @@ public class StringCode {
 	
 /**
  * String
- * 1.final类型不可被继承,成员方法final.??
+ * 1.final类型不可被继承,成员变量为final char value[],不可变,可通过反射修改原值
  * 2.线程不安全
- * 3.对String对象的任何改变都不影响到原对象，相关的任何change操作都会生成新的对象.在循环修改时，会生成很多中间对象,影响效率
+ * 3.对String对象的任何改变都不影响到原对象，相关的change操作都会生成新的对象;
+ * 		在循环修改时，会生成很多中间对象,影响性能
+ * @throws Exception 
+ * @throws NoSuchFieldException 
  */
 
+	@Test
+	@Desc("通过反射修改String的内部final char value[]")
+	public void reflectString() throws NoSuchFieldException, Exception {
+		String str = "123456789";
+		System.out.println(str);
+		Field declaredField = String.class.getDeclaredField("value");
+		//改变value属性的访问权限 
+		declaredField.setAccessible(true);
+		//获取s对象上的value属性的值  
+	    char[] value = (char[]) declaredField.get(str);  
+	    value[0] = '9';  
+	    System.out.println(str);
+	}
 /**
  * StringBuilder
  * 1.修改操作在原对象上进行,效率较String偏高
